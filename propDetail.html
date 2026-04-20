@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luxury 3BHK Apartment in Whitefield | Home Key Reality</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="propDetail.css">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <header class="navbar">
+        <div class="container nav-box">
+            <div class="logo" style="cursor: pointer;" onclick="window.location.href='home.html'">Home Key <span>Reality</span></div>
+            <nav class="links">
+                <a href="home.html">Home</a>
+                <a href="propList.html">Properties</a>
+                <a href="contact.html">Contact</a>
+            </nav>
+            <div style="display: flex; gap: 10px;">
+                <button id="reset-preview" class="btn-outline">Reset Options</button>
+                <button class="btn-primary" onclick="window.location.href='login.html'">Login</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container detail-container section-padding">
+        
+        <!-- Image Gallery Grid -->
+        <section class="gallery-grid">
+            <div class="main-img">
+                <img id="detail-image" src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200" alt="Main Property Image">
+            </div>
+            <div class="sub-images">
+                <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=600" alt="Living Room">
+                <img src="https://images.unsplash.com/photo-1600566753190-17f0bb2a6c3e?auto=format&fit=crop&w=600" alt="Kitchen">
+                <div class="more-photos">
+                    <img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=600" alt="Bedroom">
+                    <span>+5 Photos</span>
+                </div>
+            </div>
+        </section>
+
+        <div class="content-wrapper">
+            
+            <!-- Left Side: Property Info -->
+            <div class="property-info">
+                <div class="header-details">
+                    <div class="title-area">
+                        <h1 id="detail-title">Prestige Fontaine Bleau — Luxury 3BHK</h1>
+                        <p class="loc-tag" id="detail-location">📍 Whitefield (near ITPL), Bangalore</p>
+                    </div>
+                    <div class="price-area">
+                        <span class="label">Starting Price</span>
+                        <h2 id="detail-price">₹1.85 Cr</h2>
+                    </div>
+                </div>
+
+                <!-- Key Highlights -->
+                <div class="highlights">
+                    <div class="h-item"><span>🛏️</span> <strong id="detail-bhk">3 BHK</strong><p>Bedrooms</p></div>
+                    <div class="h-item"><span>🚿</span> <strong>3</strong><p>Bathrooms</p></div>
+                    <div class="h-item"><span>📐</span> <strong>1,850</strong><p>Sq. Ft.</p></div>
+                    <div class="h-item"><span>🚗</span> <strong>2</strong><p>Parking</p></div>
+                </div>
+
+                <div class="section-divider"></div>
+
+                <!-- Description -->
+                <section class="desc-section">
+                    <h3>About this Property</h3>
+                    <p id="detail-desc">Experience ultra-modern living in this east-facing 3BHK apartment located in the heart of Whitefield. This unit is part of a premium gated community featuring vast green spaces and international-standard maintenance. Perfectly suited for tech professionals working in ITPL or EPIP zone.</p>
+                </section>
+                
+                <div class="section-divider"></div>
+
+                <!-- Amenities -->
+                <section class="amenities-section">
+                    <h3>Premium Amenities</h3>
+                    <div class="amenities-grid">
+                        <div class="a-item"><span>🏊</span> Infinity Pool</div>
+                        <div class="a-item"><span>🏋️</span> Modern Gym</div>
+                        <div class="a-item"><span>🌳</span> Zen Garden</div>
+                        <div class="a-item"><span>🏢</span> Clubhouse</div>
+                        <div class="a-item"><span>👨‍✈️</span> 24/7 Security</div>
+                        <div class="a-item"><span>⚡</span> Power Backup</div>
+                    </div>
+                </section>
+                
+                <div class="section-divider"></div>
+
+                <!-- Location Map Placeholder -->
+                <section class="map-section">
+                    <h3>Location & Neighborhood</h3>
+                    <div class="map-placeholder" id="detail-map-container">
+                        <div class="map-mock">
+                            <span>Google Map View</span>
+                            <p>Whitefield, Bangalore - 560066</p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Right Side: Sticky Contact Sidebar -->
+            <aside class="sidebar">
+                <div class="contact-card">
+                    <h3>Contact Broker</h3>
+                    <div class="broker-info">
+                        <img src="chandan_goswami.jpg" alt="Broker">
+                        <div>
+                            <h4>Chandan Goswami</h4>
+                            <p>10 Year+ Experience</p>
+                        </div>
+                    </div>
+                    <form class="contact-form">
+                        <input type="text" class="input-control" placeholder="Your Name" required>
+                        <input type="email" class="input-control" placeholder="Your Email" required>
+                        <input type="tel" class="input-control" placeholder="Your Phone" required>
+                        <textarea class="input-control" placeholder="I'm interested in this property..."></textarea>
+                        <button type="submit" class="btn-primary btn-full">Schedule a Visit</button>
+                    </form>
+                    <div class="whatsapp-btn">
+                        <span>💬</span> Chat on WhatsApp
+                    </div>
+                </div>
+            </aside>
+        </div>
+
+        <!-- Similar Properties -->
+        <section class="similar-section">
+            <h3 class="section-title" style="text-align: left;">Similar Properties in Whitefield</h3>
+            <div class="similar-grid">
+                <div class="s-card" onclick="window.location.href='propList.html'">
+                    <img src="https://images.unsplash.com/photo-1570129477492-45c003edd2be?auto=format&fit=crop&w=400" alt="prop">
+                    <div class="s-info">
+                        <h4>Brigade Lakefront</h4>
+                        <p>₹1.40 Cr | 2 BHK</p>
+                    </div>
+                </div>
+                <div class="s-card" onclick="window.location.href='propList.html'">
+                    <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=400" alt="prop">
+                    <div class="s-info">
+                        <h4>Assetz Marq 3.0</h4>
+                        <p>₹1.65 Cr | 3 BHK</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="mini-footer">
+        <p>&copy; 2024 Home Key Reality. Verified Listings only.</p>
+    </footer>
+
+    <!-- Floating Home Button -->
+    <button class="fab" onclick="window.location.href='home.html'" title="Back to Home">
+        🏠
+    </button>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Extract the 'id' parameter from the URL address
+            const urlParams = new URLSearchParams(window.location.search);
+            const propId = urlParams.get('id');
+            
+            if (propId) {
+                // Find it in the local properties storage
+                const props = JSON.parse(localStorage.getItem('local_properties') || '[]');
+                const propertyData = props.find(p => p.id.toString() === propId);
+                
+                if (propertyData) {
+                    // Inject the specific property configurations
+                    document.title = propertyData.title + " | Home Key Reality";
+                    document.getElementById('detail-title').innerText = propertyData.title;
+                    document.getElementById('detail-price').innerText = propertyData.price || 'Price on Request';
+                    document.getElementById('detail-location').innerText = '📍 ' + propertyData.loc;
+                    document.getElementById('detail-desc').innerText = propertyData.desc;
+                    document.getElementById('detail-image').src = propertyData.image;
+                    
+                    document.getElementById('detail-bhk').innerText = propertyData.tag || "Premium";
+
+                    // Inject live Google Map based on typed location
+                    const encodedLoc = encodeURIComponent(propertyData.loc + ", Bangalore, India");
+                    document.getElementById('detail-map-container').innerHTML = `
+                        <iframe 
+                            width="100%" 
+                            height="100%" 
+                            style="border:0; border-radius:12px; min-height: 250px;" 
+                            loading="lazy" 
+                            allowfullscreen 
+                            src="https://maps.google.com/maps?q=${encodedLoc}&t=&z=14&ie=UTF8&iwloc=&output=embed">
+                        </iframe>
+                    `;
+                }
+            } else {
+                // Fallback to old 'Preview' logic if a user arrived here directly
+                const storedData = localStorage.getItem('newPropertyData');
+                if (storedData) {
+                    const propertyData = JSON.parse(storedData);
+                    if (propertyData.title) document.getElementById('detail-title').innerText = propertyData.title;
+                    if (propertyData.location) document.getElementById('detail-location').innerText = '📍 ' + propertyData.location + ', Bangalore';
+                    if (propertyData.desc) document.getElementById('detail-desc').innerText = propertyData.desc;
+                    if (propertyData.image) document.getElementById('detail-image').src = propertyData.image;
+                }
+            }
+
+            // Repurpose the Reset button to be a Back Button
+            const backBtn = document.getElementById('reset-preview');
+            backBtn.innerText = "← Back to Properties";
+            backBtn.addEventListener('click', () => {
+                window.location.href = 'propList.html';
+            });
+        });
+    </script>
+</body>
+</html>

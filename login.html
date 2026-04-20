@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Home Key Reality</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="login.css">
+</head>
+<body>
+
+    <div class="auth-container">
+        <!-- Logo Header -->
+        <div class="auth-header">
+            <div class="logo" style="cursor: pointer;" onclick="window.location.href='home.html'">Home Key <span>Reality</span></div>
+            <p>Welcome back! Please enter your details.</p>
+        </div>
+
+        <div class="auth-card">
+            <!-- Login Form -->
+            <form class="auth-form" id="login-form">
+                <div class="input-group">
+                    <label>Email Address</label>
+                    <input type="email" id="login-email" class="input-control" placeholder="name@company.com" required>
+                </div>
+
+                <div class="input-group">
+                    <div class="label-row">
+                        <label>Password</label>
+                        <a href="#" class="forgot-pwd">Forgot password?</a>
+                    </div>
+                    <input type="password" id="login-pwd" class="input-control" placeholder="••••••••" required>
+                </div>
+
+                <div class="remember-me">
+                    <input type="checkbox" id="remember">
+                    <label for="remember">Remember me for 30 days</label>
+                </div>
+
+                <button type="submit" class="btn-primary btn-login">Sign In</button>
+            </form>
+        </div>
+
+        <a href="home.html" class="back-home">← Back to Home</a>
+    </div>
+
+    <script>
+        // Default Broker Credentials
+        if (!localStorage.getItem('broker_email')) {
+            localStorage.setItem('broker_email', 'broker@blrestates.com');
+            localStorage.setItem('broker_pwd', 'broker123');
+        }
+
+        // Forgot Password Logic (Change ID/Password)
+        document.querySelector('.forgot-pwd').addEventListener('click', function(e) {
+            e.preventDefault();
+            const newEmail = prompt("Enter your new Broker Email ID:");
+            if (newEmail) {
+                const newPwd = prompt("Enter your new Password:");
+                if (newPwd) {
+                    localStorage.setItem('broker_email', newEmail);
+                    localStorage.setItem('broker_pwd', newPwd);
+                    alert("Credentials updated successfully! You can now log in with your new ID and Password.");
+                }
+            }
+        });
+
+        // Attach authentication logic
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+            e.preventDefault(); // Prevent standard page reload
+            
+            const email = document.getElementById('login-email').value;
+            const pwd = document.getElementById('login-pwd').value;
+
+            const storedEmail = localStorage.getItem('broker_email');
+            const storedPwd = localStorage.getItem('broker_pwd');
+
+            // Broker Validation credentials
+            if (email === storedEmail && pwd === storedPwd) {
+                // Success! Save secret token and log them in
+                localStorage.setItem('owner_auth', 'true');
+                window.location.href = 'dashboard.html';
+            } else {
+                alert("Access Denied: Incorrect Email or Password.");
+            }
+        });
+    </script>
+</body>
+</html>

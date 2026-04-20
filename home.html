@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Key Reality | Real Estate Experts</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="home.css">
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="navbar">
+        <div class="container nav-box">
+            <div class="logo" style="cursor: pointer;" onclick="window.location.href='home.html'">Home Key <span>Reality</span></div>
+            <nav class="links">
+                <a href="home.html" class="active">Home</a>
+                <a href="propList.html">Properties</a>
+                <a href="contact.html">Contact</a>
+            </nav>
+            <button class="btn-primary" onclick="window.location.href='login.html'">Login</button>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container hero-inner">
+            <div class="hero-text">
+                <h1>Find Your Dream Home in <span class="accent">Bangalore</span></h1>
+                <p>Verified properties from local experts in India's Silicon Valley.</p>
+            </div>
+
+            <!-- Search Console -->
+            <div class="search-console glass-panel">
+                <div class="search-tabs">
+                    <button class="tab active">Buy</button>
+                    <button class="tab">Rent</button>
+                </div>
+                <div class="search-bar">
+                    <input type="text" class="input-control" placeholder="Search flats in Bangalore (e.g. HSR Layout)...">
+                    <button class="btn-primary btn-search" onclick="window.location.href='propList.html'">Search</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Popular Areas -->
+    <section class="section-padding container">
+        <div class="section-title">
+            <h2>Popular Areas in Bangalore</h2>
+            <p>Explore the best neighborhoods for living and investment.</p>
+        </div>
+        <div class="area-grid">
+            <div class="area-card card"><h4>Whitefield</h4><p>IT Hub & Luxury Living</p></div>
+            <div class="area-card card"><h4>HSR Layout</h4><p>Startup Hub & Greenery</p></div>
+            <div class="area-card card"><h4>Indiranagar</h4><p>Nightlife & High-end</p></div>
+            <div class="area-card card"><h4>Koramangala</h4><p>Cosmopolitan Center</p></div>
+            <div class="area-card card"><h4>Electronic City</h4><p>Tech Parks & Rentals</p></div>
+        </div>
+    </section>
+
+    <!-- Featured Properties -->
+    <section class="section-padding" style="background: var(--bg-main);">
+        <div class="container">
+            <div class="section-title">
+                <h2>Featured Properties</h2>
+                <p>Handpicked premium listings for you.</p>
+            </div>
+            <div class="property-grid">
+                <!-- Property Card -->
+                <div class="card p-card">
+                    <div class="p-img">
+                        <span class="badge badge-primary" style="position: absolute; top: 16px; left: 16px; z-index: 10; background: white;">Featured</span>
+                        <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=500" alt="property">
+                    </div>
+                    <div class="p-content">
+                        <span class="price">₹1.45 Cr</span>
+                        <h3>Sobha Dream Acres</h3>
+                        <p class="loc">📍 Panathur, Bangalore</p>
+                        <div class="p-features"><span>🛏️ 3 BHK</span> <span>📐 1200 sqft</span></div>
+                        <button class="btn-outline" style="width: 100%;" onclick="window.location.href='propDetail.html'">View Details</button>
+                    </div>
+                </div>
+                <div class="card p-card">
+                    <div class="p-img">
+                        <span class="badge badge-primary" style="position: absolute; top: 16px; left: 16px; z-index: 10; background: white;">Featured</span>
+                        <img src="https://images.unsplash.com/photo-1512918766674-ed62b9a19c65?auto=format&fit=crop&w=500" alt="property">
+                    </div>
+                    <div class="p-content">
+                        <span class="price">₹2.10 Cr</span>
+                        <h3>Brigade Gateway</h3>
+                        <p class="loc">📍 Malleshwaram, Bangalore</p>
+                        <div class="p-features"><span>🛏️ 3 BHK</span> <span>📐 1850 sqft</span></div>
+                        <button class="btn-outline" style="width: 100%;" onclick="window.location.href='propDetail.html'">View Details</button>
+                    </div>
+                </div>
+                <div class="card p-card">
+                    <div class="p-img">
+                        <span class="badge badge-accent" style="position: absolute; top: 16px; left: 16px; z-index: 10; background: white; color: var(--accent);">Hot Deal</span>
+                        <img src="https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?auto=format&fit=crop&w=500" alt="property">
+                    </div>
+                    <div class="p-content">
+                        <span class="price">₹75 Lakhs</span>
+                        <h3>Assetz Marq</h3>
+                        <p class="loc">📍 Whitefield, Bangalore</p>
+                        <div class="p-features"><span>🛏️ 2 BHK</span> <span>📐 1050 sqft</span></div>
+                        <button class="btn-outline" style="width: 100%;" onclick="window.location.href='propDetail.html'">View Details</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us -->
+    <section class="section-padding container">
+        <div class="section-title">
+            <h2>Why Choose Us</h2>
+            <p>We are dedicated to bringing you the best real estate options.</p>
+        </div>
+        <div class="why-grid">
+            <div class="card why-card">
+                <div class="icon-box">🛡️</div>
+                <h4>Verified Listings</h4>
+                <p style="color: var(--text-muted);">Every property is manually checked for document authenticity.</p>
+            </div>
+            <div class="card why-card">
+                <div class="icon-box">🏆</div>
+                <h4>Expert Brokers</h4>
+                <p style="color: var(--text-muted);">Local advisors with 15+ years of experience in Bangalore market.</p>
+            </div>
+            <div class="card why-card">
+                <div class="icon-box">💰</div>
+                <h4>Zero Brokerage</h4>
+                <p style="color: var(--text-muted);">Transparent pricing with direct owner interactions available.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="section-padding" style="background: var(--bg-main);">
+        <div class="container">
+            <div class="section-title"><h2>Customer Stories</h2></div>
+            <div class="testi-grid">
+                <div class="card testi-card">
+                    <p>"Found the perfect villa in Whitefield within a week. Highly professional service! The design and UI are smooth and easy to understand."</p>
+                    <h5>— Vikram Rathore</h5>
+                </div>
+                <div class="card testi-card">
+                    <p>"Verified listings helped me avoid several scams. Best real estate platform in BLR. I highly recommend to all my friends."</p>
+                    <h5>— Anjali Sharma</h5>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="section-padding container">
+        <div class="cta-banner">
+            <h2>Ready to find your Dream Home?</h2>
+            <p>Our experts will call you to understand your requirements and guide you every step of the way.</p>
+            <button class="btn-white" onclick="window.location.href='contact.html'">Contact Our Experts</button>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Home Key Reality. Built with ❤️ for Bangaloreans.</p>
+        </div>
+    </footer>
+
+    <!-- Floating Home Button -->
+    <button class="fab" onclick="window.location.href='home.html'" title="Back to Home">
+        🏠
+    </button>
+</body>
+</html>

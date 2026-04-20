@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Properties in Bangalore | Home Key Reality</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="propList.css">
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="container nav-box">
+            <div class="logo" style="cursor: pointer;" onclick="window.location.href='home.html'">Home Key <span>Reality</span></div>
+            <nav class="links">
+                <a href="home.html">Home</a>
+                <a href="propList.html" class="active">Properties</a>
+                <a href="contact.html">Contact</a>
+            </nav>
+            <button class="btn-primary" onclick="window.location.href='login.html'">Login</button>
+        </div>
+    </header>
+
+    <main class="listing-page container">
+        
+        <!-- Left Sidebar Filter -->
+        <aside class="sidebar">
+            <div class="card filter-card" style="padding: 32px;">
+                <h3>Filters</h3>
+                
+                <!-- Buy/Rent Toggle -->
+                <div class="filter-section">
+                    <label>List Type</label>
+                    <div class="toggle-group">
+                        <input type="radio" name="type" id="buy" checked>
+                        <label for="buy">Buy</label>
+                        <input type="radio" name="type" id="rent">
+                        <label for="rent">Rent</label>
+                    </div>
+                </div>
+
+                <!-- Price Range -->
+                <div class="filter-section">
+                    <label>Max Price (₹)</label>
+                    <input type="range" id="price-filter" class="range-input" min="20" max="500" step="10" value="500">
+                    <div class="range-labels">
+                        <span>20 L</span>
+                        <span id="price-display">5.00 Cr</span>
+                    </div>
+                </div>
+
+                <!-- Area -->
+                <div class="filter-section">
+                    <label>Neighborhood</label>
+                    <select class="select-input" id="neighborhood-filter">
+                        <option value="All Bangalore">All Bangalore</option>
+                        <option value="Whitefield">Whitefield</option>
+                        <option value="Marathahalli">Marathahalli</option>
+                        <option value="Electronic City">Electronic City</option>
+                        <option value="Sarjapur Road">Sarjapur Road</option>
+                        <option value="HSR Layout">HSR Layout</option>
+                    </select>
+                </div>
+
+                <!-- BHK Type -->
+                <div class="filter-section">
+                    <label>BHK Type</label>
+                    <div class="checkbox-group">
+                        <label><input type="checkbox" value="1" class="bhk-cb"> 1 BHK</label>
+                        <label><input type="checkbox" value="2" checked class="bhk-cb"> 2 BHK</label>
+                        <label><input type="checkbox" value="3" checked class="bhk-cb"> 3 BHK</label>
+                        <label><input type="checkbox" value="4+" class="bhk-cb"> 4+ BHK</label>
+                    </div>
+                </div>
+
+                <button class="btn-primary btn-apply" id="apply-filters-btn">Apply Filters</button>
+            </div>
+        </aside>
+
+        <!-- Right Side Properties -->
+        <section class="main-content">
+            <div class="results-header">
+                <h2>Apartments for Sale in <span>Bangalore</span></h2>
+                <div class="sorting">
+                    <label>Sort by:</label>
+                    <select>
+                        <option>Newest First</option>
+                        <option>Price: Low to High</option>
+                        <option>Price: High to Low</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="property-grid" id="dynamic-property-grid">
+                <!-- Data injected dynamically from Dashboard -->
+            </div>
+            <button class="btn-primary" id="btn-show-all" style="margin: 40px auto; display: block; font-size: 16px;">Buy / Show All Properties</button>
+        </section>
+
+    </main>
+
+    <!-- Floating Home Button -->
+    <button class="fab" onclick="window.location.href='home.html'" title="Back to Home">
+        🏠
+    </button>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Fetch any locally saved properties the broker added from the dashboard
+            const props = JSON.parse(localStorage.getItem('local_properties') || '[]');
+            const grid = document.querySelector('.property-grid');
+            
+            if (props.length > 0) {
+                // Loop through stored properties and inject them into the DOM
+                props.forEach(prop => {
+                    const card = document.createElement('div');
+                    card.className = 'card listing-card'; // Added 'card' utility class
+                    card.setAttribute('data-type', prop.listingType || 'buy');
+                    card.setAttribute('data-bhk', prop.bhk || '2'); // Default fallback
+                    card.setAttribute('data-loc', prop.loc || '');
+                    
+                    // Same HTML structure as the current static cards but updated visually
+                    card.innerHTML = `
+                        <div class="l-img">
+                            <span class="badge badge-primary tag">${prop.tag}</span>
+                            <img src="${prop.image}" alt="property">
+                        </div>
+                        <div class="l-info">
+                            <div class="l-price">${prop.price || 'Price on Request'}</div>
+                            <h3>${prop.title}</h3>
+                            <p class="l-loc">📍 ${prop.loc}</p>
+                            <p class="l-desc">${prop.desc}</p>
+                            <button class="btn-outline" style="width: 100%;" onclick="window.location.href='propDetail.html?id=${prop.id}'">View Details</button>
+                        </div>
+                    `;
+                    
+                    // Prepend to show at the very top
+                    grid.prepend(card); 
+                });
+            }
+            
+            // --- Filter Functionality ---
+            const priceFilter = document.getElementById('price-filter');
+            const priceDisplay = document.getElementById('price-display');
+            const applyBtn = document.getElementById('apply-filters-btn');
+
+            // --- Property Visibility Logic ---
+            const allCards = document.querySelectorAll('.listing-card');
+            const showAllBtn = document.getElementById('btn-show-all');
+            
+            // Function to initially hide cards beyond the first 3
+            function initializeView() {
+                const currentCards = document.querySelectorAll('.listing-card');
+                currentCards.forEach((card, index) => {
+                    if (index >= 3) {
+                        card.style.display = 'none';
+                    }
+                });
+                
+                if (currentCards.length <= 3) {
+                    showAllBtn.style.display = 'none';
+                }
+            }
+            
+            // Run initially
+            initializeView();
+            
+            // Apply the default 'buy' filter right after loading
+            if (applyBtn) {
+                applyBtn.click();
+            }
+
+            // When "Buy/Show All" is clicked, reveal everything
+            if (showAllBtn) {
+                showAllBtn.addEventListener('click', () => {
+                    const currentCards = document.querySelectorAll('.listing-card');
+                    currentCards.forEach(card => {
+                        card.style.display = 'flex';
+                        card.style.flexDirection = 'column'; // Maintain card layout
+                    });
+                    showAllBtn.style.display = 'none'; // Hide button after clicking
+                });
+            }
+
+            if (priceFilter) {
+                // Update display label in realtime when sliding
+                priceFilter.addEventListener('input', (e) => {
+                    const val = parseInt(e.target.value);
+                    if (val >= 100) {
+                        priceDisplay.innerText = (val / 100).toFixed(2) + ' Cr';
+                    } else {
+                        priceDisplay.innerText = val + ' L';
+                    }
+                });
+
+                // Auto-apply filters when toggling Buy/Rent
+                document.getElementById('buy').addEventListener('change', () => applyBtn.click());
+                document.getElementById('rent').addEventListener('change', () => applyBtn.click());
+                
+                // Auto-apply filters when toggling Neighborhood or BHK
+                document.getElementById('neighborhood-filter').addEventListener('change', () => applyBtn.click());
+                document.querySelectorAll('.bhk-cb').forEach(cb => {
+                    cb.addEventListener('change', () => applyBtn.click());
+                });
+
+                // Apply button hides/shows cards
+                applyBtn.addEventListener('click', () => {
+                    const maxLakhs = parseInt(priceFilter.value);
+                    const isBuy = document.getElementById('buy').checked;
+                    const filterType = isBuy ? 'buy' : 'rent';
+                    
+                    const neighborhood = document.getElementById('neighborhood-filter').value;
+                    const bhkCheckedNodes = document.querySelectorAll('.bhk-cb:checked');
+                    const checkedBHKs = Array.from(bhkCheckedNodes).map(cb => cb.value);
+
+                    const cards = document.querySelectorAll('.listing-card');
+                    
+                    cards.forEach(card => {
+                        const priceTextElem = card.querySelector('.l-price');
+                        if (!priceTextElem) return;
+                        
+                        const text = priceTextElem.innerText.toUpperCase().replace(/,/g, '');
+                        let propertyLakhs = 0;
+                        
+                        // Extract numeric portion of the price string
+                        const match = text.match(/[\d\.]+/);
+                        if (match) {
+                            const num = parseFloat(match[0]);
+                            // Convert everything to lakhs to compare
+                            if (text.includes('CR')) {
+                                propertyLakhs = num * 100;
+                            } else if (text.includes('LAKH') || text.includes('L') || text.includes('LACS')) {
+                                propertyLakhs = num;
+                            } else {
+                                propertyLakhs = num; // Fallback presumption
+                            }
+                        }
+
+                        // Determine visibility based on budget and list type
+                        const cardType = card.getAttribute('data-type') || 'buy';
+                        const cardBhk = card.getAttribute('data-bhk') || '2';
+                        const cardLoc = card.getAttribute('data-loc') || '';
+
+                        // Neighborhood Check
+                        let passesNeighborhood = true;
+                        if (neighborhood !== 'All Bangalore') {
+                            passesNeighborhood = cardLoc.toLowerCase().includes(neighborhood.toLowerCase());
+                        }
+
+                        // BHK Check
+                        let passesBhk = checkedBHKs.includes(cardBhk);
+                        if (checkedBHKs.length === 0) passesBhk = true; // show all if none checked
+                        
+                        if (cardType === filterType && propertyLakhs > 0 && propertyLakhs <= maxLakhs && passesNeighborhood && passesBhk) {
+                            card.style.display = 'flex';
+                            card.style.flexDirection = 'column';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                    
+                    // Always hide the "show all" button after filtering
+                    if (showAllBtn) showAllBtn.style.display = 'none';
+                });
+            }
+        });
+    </script>
+</body>
+</html>

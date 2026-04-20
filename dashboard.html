@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Broker Dashboard | Bengaluru Estates</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="dashboard.css">
+    
+    <!-- Security Check -->
+    <script>
+        if (localStorage.getItem('owner_auth') !== 'true') {
+            window.location.href = 'login.html';
+        }
+    </script>
+</head>
+<body>
+
+    <div class="dashboard-wrapper">
+        
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo" style="cursor: pointer;" onclick="window.location.href='home.html'">Blr<span>Estates</span></div>
+                <p>Broker Portal</p>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" id="nav-dashboard">
+                    <span class="icon">📊</span> Dashboard
+                </a>
+                <a href="#" class="nav-item" id="nav-add-property">
+                    <span class="icon">➕</span> Add Property
+                </a>
+                <a href="#" class="nav-item" id="nav-my-listings">
+                    <span class="icon">🏠</span> My Listings
+                </a>
+                <a href="#" class="nav-item" id="nav-leads">
+                    <span class="icon">👤</span> Leads
+                    <span class="badge badge-primary" id="sidebar-lead-count" style="margin-left: auto;">0</span>
+                </a>
+                <div class="nav-divider"></div>
+                <a href="#" class="nav-item logout" onclick="localStorage.removeItem('owner_auth'); window.location.href='home.html';">
+                    <span class="icon">🚪</span> Logout
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            
+            <div id="view-dashboard">
+                <!-- Context Header -->
+                <header class="content-header">
+                    <div class="welcome">
+                        <h1>Broker Dashboard</h1>
+                        <p>Welcome back, Chandan. Here's your performance for today.</p>
+                    </div>
+                    <div class="user-profile">
+                        <div class="user-info">
+                            <strong>Chandan Goswami</strong>
+                            <p>10 Year+ Experience</p>
+                        </div>
+                        <img src="chandan_goswami.jpg" alt="Avatar">
+                    </div>
+                </header>
+
+                <!-- Stats Overview -->
+                <section class="stats-grid">
+                    <div class="stat-card" style="cursor: pointer;" onclick="document.getElementById('nav-my-listings').click()">
+                        <div class="stat-info">
+                            <p>Total Properties</p>
+                            <h3 id="prop-count">0</h3>
+                        </div>
+                        <div class="stat-icon bg-blue">🏢</div>
+                    </div>
+                    <div class="stat-card" style="cursor: pointer;" onclick="document.getElementById('nav-leads').click()">
+                        <div class="stat-info">
+                            <p>Total Inquiries</p>
+                            <h3 id="inquiry-count">0</h3>
+                        </div>
+                        <div class="stat-icon bg-green">📩</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <p>Sold / Rented</p>
+                            <h3 id="sold-count">0</h3>
+                        </div>
+                        <div class="stat-icon bg-purple">💎</div>
+                    </div>
+                </section>
+
+                <!-- Recent Leads Table -->
+                <section class="table-section" id="leads-section">
+                    <div class="table-header">
+                        <h3>Recent Leads</h3>
+                        <button class="btn-outline">Download Report</button>
+                    </div>
+                    <div class="table-container">
+                        <table class="leads-table">
+                            <thead>
+                                <tr>
+                                    <th>Client Name</th>
+                                    <th>Property Name</th>
+                                    <th>Contact Info</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="leads-body">
+                                <!-- Data will be dynamically injected here by Javascript -->
+                                <tr>
+                                    <td colspan="5" style="text-align: center; padding: 20px;">Loading live leads...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Add Property View -->
+            <div id="view-add-property" style="display: none;">
+                <header class="content-header">
+                    <div class="welcome">
+                        <h1>Add New Property</h1>
+                        <p>Enter the details below to publish a new listing directly to the live site.</p>
+                    </div>
+                </header>
+
+                <section class="form-section">
+                    <form id="add-property-form" style="display: flex; flex-direction: column; gap: 24px;">
+                        <div>
+                            <label>Property Title</label>
+                            <input type="text" id="prop-title" required placeholder="e.g. Prestige Fontaine Bleau" class="input-control">
+                        </div>
+                        
+                        <div style="display: flex; gap: 24px;">
+                            <div style="flex:1;">
+                                <label>Price (e.g. ₹1.15 Cr)</label>
+                                <input type="text" id="prop-price" required placeholder="₹1.15 Cr" class="input-control">
+                            </div>
+                            <div style="flex:1;">
+                                <label>Location</label>
+                                <input type="text" id="prop-loc" required placeholder="Whitefield, Bangalore" class="input-control">
+                            </div>
+                        </div>
+
+                        <div style="display: flex; gap: 24px;">
+                            <div style="flex:1;">
+                                <label>Listing Type</label>
+                                <select id="prop-listing-type" required class="input-control">
+                                    <option value="buy">For Sale (Buy)</option>
+                                    <option value="rent">For Rent</option>
+                                </select>
+                            </div>
+                            <div style="flex:1;">
+                                <label>BHK</label>
+                                <select id="prop-bhk" required class="input-control">
+                                    <option value="1">1 BHK</option>
+                                    <option value="2">2 BHK</option>
+                                    <option value="3">3 BHK</option>
+                                    <option value="4+">4+ BHK</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label>Description</label>
+                            <textarea id="prop-desc" required rows="4" placeholder="Beautiful 3BHK with modern amenities..." class="input-control"></textarea>
+                        </div>
+
+                        <div style="display: flex; gap: 24px;">
+                            <div style="flex:1;">
+                                <label>Tag</label>
+                                <input type="text" id="prop-tag" required placeholder="Ready to Move" class="input-control">
+                            </div>
+                            <div style="flex:1;">
+                                <label>Upload Image</label>
+                                <input type="file" id="prop-image" accept="image/*" required class="input-control" style="background: var(--bg-main); padding: 11px;">
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn-primary" style="margin-top: 16px; width: fit-content; padding: 14px 40px; font-size: 16px;">Publish Property</button>
+                    </form>
+                </section>
+            </div>
+
+            <!-- My Listings View -->
+            <div id="view-my-listings" style="display: none;">
+                <header class="content-header">
+                    <div class="welcome">
+                        <h1>My Listings</h1>
+                        <p>Manage the custom properties you have published.</p>
+                    </div>
+                </header>
+                <section class="table-section">
+                    <div class="table-container">
+                        <table class="leads-table">
+                            <thead>
+                                <tr>
+                                    <th>Image</th>
+                                    <th>Property Title</th>
+                                    <th>Location</th>
+                                    <th>Price</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="my-listings-body">
+                                <tr><td colspan="5" style="text-align:center; padding:20px;">No custom properties added yet.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Message Detail View -->
+            <div id="view-message-detail" style="display: none;">
+                <header class="content-header">
+                    <div class="welcome">
+                        <h1>Lead Inquiry Details</h1>
+                        <p>Full view of the client's message.</p>
+                    </div>
+                    <button class="btn-outline" onclick="document.getElementById('nav-dashboard').click()">← Back to Dashboard</button>
+                </header>
+                <div style="background: linear-gradient(135deg, #ffffff, #f8fafc); border-top: 4px solid var(--primary); padding: 48px; border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); max-width: 800px; border-left: 1px solid var(--border-color); border-right: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color);">
+                    <div style="display: flex; gap: 24px; align-items: center; margin-bottom: 32px; border-bottom: 1px solid var(--border-color); padding-bottom: 24px;">
+                        <div style="font-size: 48px; background: rgba(79,70,229,0.1); color: var(--primary); width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; border-radius: 50%;">👤</div>
+                        <div>
+                            <h2 id="msg-detail-name" style="color: var(--primary); font-size: 32px; margin-bottom: 4px;">Client Name</h2>
+                            <p id="msg-detail-contact" style="color: var(--text-muted); font-weight: bold; font-size: 16px;">Contact Info</p>
+                        </div>
+                    </div>
+                    <h3 style="margin-bottom: 16px; font-size: 20px; color: var(--text-main);">Client's Message:</h3>
+                    <div id="msg-detail-text" style="background: white; padding: 32px; border-radius: var(--radius-md); font-size: 17px; line-height: 1.8; color: var(--text-main); border: 1px solid var(--border-color); box-shadow: inset 0 2px 8px rgba(0,0,0,0.02); white-space: pre-wrap;">
+                        Message goes here.
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Colorful Popup for Property Add -->
+    <div id="successPopup" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 2000; align-items: center; justify-content: center; backdrop-filter: blur(5px);">
+        <div style="background: linear-gradient(135deg, var(--primary), var(--secondary)); padding: 40px; border-radius: var(--radius-lg); text-align: center; color: white; box-shadow: var(--shadow-hover); max-width: 400px; transform: scale(0.9); animation: popIn 0.3s forwards;">
+            <div style="font-size: 50px; margin-bottom: 20px;">🎉</div>
+            <h3 style="font-size: 24px; margin-bottom: 10px; color: white; font-family: 'Outfit', sans-serif;">Property Published!</h3>
+            <p style="font-size: 16px; margin-bottom: 24px; opacity: 0.9;">Your new property has been successfully listed and is now live on the public properties page.</p>
+            <button onclick="document.getElementById('successPopup').style.display='none'; document.getElementById('nav-my-listings').click();" style="background: white; color: var(--primary); border: none; padding: 12px 30px; border-radius: var(--radius-full); font-weight: bold; cursor: pointer; transition: 0.3s;">View Listings</button>
+        </div>
+    </div>
+    <style>
+    @keyframes popIn {
+        to { transform: scale(1); }
+    }
+    </style>
+
+    <!-- Frontend Script to fetch from our Backend API -->
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const leadsBody = document.getElementById('leads-body');
+            
+            // Fetch leads asynchronously without blocking UI setup
+            async function fetchLeads() {
+                try {
+                    // Fetch data from localStorage
+                    const contacts = JSON.parse(localStorage.getItem('local_leads') || '[]');
+                    
+                    // Clear the loading message
+                    leadsBody.innerHTML = '';
+                    
+                    if (contacts.length === 0) {
+                        leadsBody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 20px;">No leads found yet.</td></tr>';
+                        return;
+                    }
+
+                    // Store contacts globally so we can access them by index
+                    window.currentLeads = contacts.reverse();
+
+                    // Loop through the data and generate table rows
+                    window.currentLeads.forEach((contact, index) => {
+                        const tr = document.createElement('tr');
+                        
+                        // Simple logic to give tags like "New", "Hot Lead", etc (just for visual flair)
+                        const statusClass = Math.random() > 0.5 ? 'hot' : 'new';
+                        const statusText = statusClass === 'hot' ? 'Hot Lead' : 'New';
+
+                        // Format the row
+                        tr.innerHTML = `
+                            <td class="client-cell">
+                                <strong>${contact.clientName || 'Unknown'}</strong>
+                                <p>${contact.date || 'Today'}</p>
+                            </td>
+                            <td>Direct Inquiry</td>
+                            <td>${contact.contactInfo || 'Not Provided'}</td>
+                            <td><span class="status-tag ${statusClass}">${statusText}</span></td>
+                            <td><button class="btn-primary btn-sm" onclick="openMessageDetail(${index})">View Message</button></td>
+                        `;
+                        
+                        leadsBody.appendChild(tr);
+                    });
+                    
+                    // Update the Total Inquiries stat counter
+                    document.getElementById('inquiry-count').innerText = contacts.length;
+                    document.getElementById('sidebar-lead-count').innerText = contacts.length;
+
+                } catch (error) {
+                    console.error("Error loading leads:", error);
+                    leadsBody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 20px; color: red;">Failed to load leads from local storage.</td></tr>';
+                }
+            }
+            
+            fetchLeads();
+
+            // Tab Switching Logic
+            const navDashboard = document.getElementById('nav-dashboard');
+            const navAddProperty = document.getElementById('nav-add-property');
+            const navMyListings = document.getElementById('nav-my-listings');
+            const navLeads = document.getElementById('nav-leads');
+            
+            const viewDashboard = document.getElementById('view-dashboard');
+            const viewAddProperty = document.getElementById('view-add-property');
+            const viewMyListings = document.getElementById('view-my-listings');
+            const viewMessageDetail = document.getElementById('view-message-detail');
+
+            function hideAllViews() {
+                navDashboard.classList.remove('active');
+                navAddProperty.classList.remove('active');
+                navMyListings.classList.remove('active');
+                navLeads.classList.remove('active');
+                viewDashboard.style.display = 'none';
+                viewAddProperty.style.display = 'none';
+                viewMyListings.style.display = 'none';
+                viewMessageDetail.style.display = 'none';
+            }
+
+            // Open Message Detail View Logic
+            window.openMessageDetail = function(index) {
+                const contact = window.currentLeads[index];
+                if (!contact) return;
+                
+                hideAllViews();
+                
+                document.getElementById('msg-detail-name').innerText = contact.clientName || 'Unknown Sender';
+                document.getElementById('msg-detail-contact').innerText = contact.contactInfo || 'No Contact Info Provided';
+                document.getElementById('msg-detail-text').innerText = contact.message || 'No message content provided.';
+                
+                viewMessageDetail.style.display = 'block';
+            };
+
+            navDashboard.addEventListener('click', (e) => {
+                e.preventDefault();
+                hideAllViews();
+                navDashboard.classList.add('active');
+                viewDashboard.style.display = 'block';
+            });
+
+            navLeads.addEventListener('click', (e) => {
+                e.preventDefault();
+                hideAllViews();
+                navLeads.classList.add('active');
+                viewDashboard.style.display = 'block';
+                // Scroll smoothly to the leads section
+                document.getElementById('leads-section').scrollIntoView({ behavior: 'smooth' });
+            });
+
+            navAddProperty.addEventListener('click', (e) => {
+                e.preventDefault();
+                hideAllViews();
+                navAddProperty.classList.add('active');
+                viewAddProperty.style.display = 'block';
+            });
+
+            // "My Listings" tab clicked
+            navMyListings.addEventListener('click', (e) => {
+                e.preventDefault();
+                hideAllViews();
+                navMyListings.classList.add('active');
+                viewMyListings.style.display = 'block';
+                renderMyListings(); // Load data when opening tab
+            });
+
+            // Delete Property Logic
+            window.deleteProperty = function(id) {
+                if (confirm("Are you sure you want to completely delete this listed property?")) {
+                    let props = JSON.parse(localStorage.getItem('local_properties') || '[]');
+                    props = props.filter(p => p.id !== id);
+                    localStorage.setItem('local_properties', JSON.stringify(props));
+                    
+                    renderMyListings(); // Refresh the table UI
+                    document.getElementById('prop-count').innerText = props.length; // Refresh the stats counter
+                    
+                    alert("Property has been deleted.");
+                }
+            };
+
+            // Mark Property as Sold/Rented Logic
+            window.markSoldProperty = function(id) {
+                if (confirm("Are you sure you want to mark this property as Sold/Rented? It will be removed from the active listings.")) {
+                    let props = JSON.parse(localStorage.getItem('local_properties') || '[]');
+                    props = props.filter(p => p.id !== id);
+                    localStorage.setItem('local_properties', JSON.stringify(props));
+                    
+                    // Increment Sold count
+                    let soldCount = parseInt(localStorage.getItem('local_sold_count') || '0');
+                    soldCount++;
+                    localStorage.setItem('local_sold_count', soldCount.toString());
+                    
+                    renderMyListings(); // Refresh the table UI
+                    document.getElementById('prop-count').innerText = props.length; // Refresh the stats counter
+                    document.getElementById('sold-count').innerText = soldCount; // Refresh the sold counter
+                    
+                    alert("Property marked as Sold/Rented!");
+                }
+            };
+
+            // Render Listings Table Logic
+            function renderMyListings() {
+                const tbody = document.getElementById('my-listings-body');
+                const props = JSON.parse(localStorage.getItem('local_properties') || '[]');
+                
+                if (props.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:20px;">No custom properties added yet.</td></tr>';
+                    return;
+                }
+                
+                tbody.innerHTML = '';
+                // Reverse to show newest on top correctly
+                props.slice().reverse().forEach(prop => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td><img src="${prop.image}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 8px; box-shadow: var(--shadow-sm);"></td>
+                        <td><strong>${prop.title}</strong></td>
+                        <td>${prop.loc}</td>
+                        <td style="color: var(--primary); font-weight: bold;">${prop.price}</td>
+                        <td style="display: flex; gap: 8px;">
+                            <button class="btn-primary btn-sm" onclick="window.location.href='propDetail.html?id=${prop.id}'">👁️ View</button>
+                            <button class="btn-sm" style="background: #10b981; color: white; border: none; border-radius: 8px;" onclick="markSoldProperty(${prop.id})">💎 Mark Sold</button>
+                            <button class="btn-sm" style="background: var(--accent); color: white; border: none; border-radius: 8px;" onclick="deleteProperty(${prop.id})">❌ Delete</button>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            }
+
+            // Update Stats on Load
+            const existingProps = JSON.parse(localStorage.getItem('local_properties') || '[]');
+            document.getElementById('prop-count').innerText = existingProps.length;
+            
+            const existingSold = parseInt(localStorage.getItem('local_sold_count') || '0');
+            document.getElementById('sold-count').innerText = existingSold;
+
+            // Property Submission Logic
+            document.getElementById('add-property-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                const imgFile = document.getElementById('prop-image').files[0];
+                if (!imgFile) return;
+
+                // Max file size check (to keep localStorage from overflowing - approx 2MB)
+                if (imgFile.size > 2 * 1024 * 1024) {
+                    alert("Image too large! Please upload an image under 2MB.");
+                    return;
+                }
+
+                // Compress / Read file to Base64
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const base64Img = event.target.result;
+                    
+                    const newProperty = {
+                        id: Date.now(),
+                        title: document.getElementById('prop-title').value,
+                        price: document.getElementById('prop-price').value,
+                        loc: document.getElementById('prop-loc').value,
+                        listingType: document.getElementById('prop-listing-type').value,
+                        bhk: document.getElementById('prop-bhk').value,
+                        desc: document.getElementById('prop-desc').value,
+                        tag: document.getElementById('prop-tag').value,
+                        image: base64Img
+                    };
+
+                    const props = JSON.parse(localStorage.getItem('local_properties') || '[]');
+                    props.push(newProperty);
+                    localStorage.setItem('local_properties', JSON.stringify(props));
+
+                    // Show colorful popup instead of alert
+                    document.getElementById('successPopup').style.display = 'flex';
+                    
+                    // Reset form
+                    document.getElementById('add-property-form').reset();
+
+                    // Update count
+                    document.getElementById('prop-count').innerText = props.length;
+                };
+                reader.readAsDataURL(imgFile);
+            });
+        });
+    </script>
+    <!-- Floating Home Button -->
+    <button class="fab" onclick="window.location.href='home.html'" title="Back to Home">
+        🏠
+    </button>
+</body>
+</html>
